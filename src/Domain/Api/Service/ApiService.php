@@ -34,6 +34,7 @@ class ApiService
      * @throws \Exception
      * @throws TransportExceptionInterface
      * @throws DecodingExceptionInterface
+     * @param array{'name': string, 'email': string} $payload
      * @return array{'name': string, 'email': string}
      */
     public function randomPostRequest(array $payload, int $attempt = 1): array
