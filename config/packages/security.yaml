@@ -1,0 +1,28 @@
+security:
+    enable_authenticator_manager: true
+
+    # Encoders for password hashing
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+
+    # Define users and their roles
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+        # used to reload user from session & other features (e.g. switch_user)
+
+    # Firewalls for controlling access
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            lazy: true
+            provider: app_user_provider
+
+    # Access control
+    access_control:
+        - { path: ^/orders, roles: ROLE_ADMIN }

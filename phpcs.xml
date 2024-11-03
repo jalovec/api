@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<ruleset name="MyProjectCodingStandard">
+    <description>My custom coding standard</description>
+
+    <!-- Define the standard you want to use -->
+    <rule ref="PSR12"/>
+
+    <!-- Specify the error levels -->
+    <rule ref="Generic.Files.LineLength">
+        <severity>1</severity> <!-- Set warnings for line length -->
+    </rule>
+
+    <rule ref="Squiz.Functions.FunctionDeclarationArgumentSpacing">
+        <severity>2</severity> <!-- Set errors for function declaration spacing -->
+    </rule>
+
+    <!-- Exclude specific patterns -->
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/tests/*</exclude-pattern>
+</ruleset>

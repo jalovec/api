@@ -1,0 +1,54 @@
+# docker/docker-compose.yml
+
+version: '3.3'
+
+services:
+  php:
+    build:
+      context: ..
+      dockerfile: docker/php/Dockerfile
+    volumes:
+      - ../:/var/www/symfony
+    environment:
+      - APP_ENV=dev
+    networks:
+      - symfony
+    container_name: docker-php
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8000:80"
+    volumes:
+      - ../:/var/www/symfony
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+    networks:
+      - symfony
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: symfony
+      MYSQL_USER: symfony
+      MYSQL_PASSWORD: symfony
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - symfony
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    ports:
+      - "2060:8080"
+    networks:
+      - symfony
+
+networks:
+  symfony:
+
+volumes:
+  db_data:

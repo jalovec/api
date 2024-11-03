@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Orders{% endblock %}
+
+{% block body %}
+
+
+    <style>
+        .example-wrapper {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+        }
+
+        .example-wrapper code {
+            background: #F5F5F5;
+            padding: 2px 6px;
+        }
+    </style>
+    <center>
+        {% if method is same as('put') %}
+            {% set action = '/orders/' ~ order.id %}
+            {% set pageName = 'Order update' %}
+            {% set button = 'UPDATE' %}
+        {% endif %}
+        {% if method is same as('post') %}
+            {% set action = '/orders' %}
+            {% set pageName = 'Order create' %}
+            {% set button = 'CREATE' %}
+        {% endif %}
+        <FORM action="{{ action }}" method="post">
+        <TABLE width="70%" border="1">
+        <tr>
+            <td colspan="5"><font face='Arial' size='5'>{{ pageName }}</font></td>
+            <td align="right"><font face='Arial' size='2'><a href="/logout">logout</a></font></td>
+        </tr>
+        </TABLE>
+        <TABLE width="70%" border="1">
+            {% if method is same as('post') %}
+                <tr>
+                    <th>Customer Name</th>
+                    <td><INPUT type="text" name="customerName" id="customerName" value="{% if order is defined %}{{ order.customerName }}{% endif %}"></td>
+                </tr>
+            {% endif %}
+            {% if method is same as('put') %}
+                <tr>
+                    <th>Status</th>
+                    <td>
+                        {% if order is defined %}
+                            <SELECT name="status" id="status">
+                                {% for status in statuses %}
+                                    <OPTION value="{{ status.value }}" {% if status.value is same as(order.status.value) %}SELECTED{% endif %}>{{ status.value }}</OPTION>
+                                {% endfor %}
+                            </SELECT>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endif %}
+            <tr>
+                <th>Total price</th>
+                <td><INPUT type="text" name="totalPrice" id="totalPrice" value="{% if order is defined %}{{ order.totalPrice }}{% endif %}"> CZK</td>
+            </tr>
+            <tr>
+                <th>&nbsp;</th>
+                <td>
+                    {% if order is defined %}
+                    <input type="hidden" name="_method" value="{{ method }}">
+                    <INPUT type="hidden" name="id" value="{{ order.id }}">
+                    {% endif %}
+                    <INPUT type="submit" name="submitOrder" id="submitOrder" value="{{ button }}">
+                </td>
+            </tr>
+        </TABLE>
+        </FORM>
+    </center>
+{% endblock %}
